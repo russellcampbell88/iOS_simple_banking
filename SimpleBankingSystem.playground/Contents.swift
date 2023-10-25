@@ -29,7 +29,7 @@ var greeting = "Hello, playground"
  
 *       (CHECK) Calculate Interest: For savings accounts, calculate and add monthly interest to the balance.
 *
-*       List All Accounts: Implement a function to list all customer accounts.
+*       (CHECK) List All Accounts: Implement a function to list all customer accounts.
 *
 *       (CHECK) Transfer Funds: Implement a fund transfer feature to transfer money between two customer                accounts.
 *
@@ -46,7 +46,7 @@ var greeting = "Hello, playground"
             (CHECK) inheritance to model accounts
             use structs or enums for the account types
             (CHECK) apply generics for flexible account management
-            and employ Swift collections to store and manage customer accounts
+            (CHECK) and employ Swift collections to store and manage customer accounts
         
         Additionally:
             (CHECK) make use of control statements for account operations
@@ -282,3 +282,17 @@ class BusinessAccount: BankAccount
     let minumumBalance = 2500.00
 }
 
+var account1 = BusinessAccount(initialBalance: <Double>, finalBalance: <Double>, finalBalanceChecking: <Double>, finalBalanceSavings: <Double>, finalBalanceBusiness: <Double>, transferAmount: <Double>, fromCheckingToSavings: <Bool>, fromCheckingToBusiness: <Bool>, fromSavingsToChecking: <Bool>, fromSavingsToBusiness: <Bool>, fromBusinessToChecking: <Bool>, fromBusinessToSavings: <Bool>)
+
+var account2 = CheckingAccount(initialBalance: <Double>, finalBalance: <Double>, finalBalanceChecking: <Double>, finalBalanceSavings: <Double>, finalBalanceBusiness: <Double>, transferAmount: <#Double#>, fromCheckingToSavings: <Bool>, fromCheckingToBusiness: <Bool>, fromSavingsToChecking: <Bool>, fromSavingsToBusiness: <Bool>, fromBusinessToChecking: <Bool>, fromBusinessToSavings: <Bool>)
+
+var account3 = SavingsAccount(monthsActive: <Double?>, initialSavings: <Double>)
+
+
+var accountCollection:[Fundable.Type] = [BusinessAccount.self,CheckingAccount.self,SavingsAccount.self]
+
+func listAccounts ( accountCollection:[Fundable] ) {
+    for i in accountCollection {
+        print(accountcollection[i])
+    }
+}
