@@ -62,7 +62,7 @@ var greeting = "Hello, playground"
 protocol Fundable
 {
     //  Properties
-    var initialBalance:  Double  { get set }
+    var initialBalance:  Double { get set }
     var finalBalance:   Double  { get set }
     var transferAmount: Double  { get set }
     var numberOfSavingsTransfers: Int { get set }
@@ -84,7 +84,9 @@ protocol Fundable
     //func withdraw( initialBalance: Double, withdrawalAmount: Double )
     func displayTotalBalance( totalBalance: Double, finalBalanceChecking: Double,
                               finalBalanceSavings: Double, finalBalanceBusiness: Double ) -> Double
-    //func listAccounts()
+    
+    func chargeOverdraft( overdraftFee: Double, finalBalanceChecking: Double,
+                          finalBalanceSavings: Double, finalBalanceBusiness: Double )
 
 
 }
@@ -92,7 +94,7 @@ protocol Fundable
 //  Bank Account Class Implements Fundable
 class BankAccount: Fundable 
 {
-    
+
     //  Our function to display the total balance in every account.
     func displayTotalBalance(totalBalance: Double, finalBalanceChecking: Double, finalBalanceSavings: Double, finalBalanceBusiness: Double) -> Double {
         let totalBalance = finalBalanceSavings + finalBalanceChecking + finalBalanceBusiness
@@ -106,7 +108,7 @@ class BankAccount: Fundable
     //  Let's start with our constants
     let name = "Russell"
     let accountNumber = 0011419930
-    let overdraftFee = 35.00
+    var overdraftFee = 35.00
     
     //  And now our Variables
     var initialBalance: Double  = 0.00
@@ -236,6 +238,17 @@ class BankAccount: Fundable
             
         }
     }
+    
+    //  Charge an overdraft fee if any balance is negative.
+    func chargeOverdraft(overdraftFee: Double, finalBalanceChecking: Double, finalBalanceSavings: Double, finalBalanceBusiness: Double) {
+        if finalBalanceChecking < 0 {
+            self.finalBalanceChecking = finalBalanceChecking - overdraftFee
+        } else if finalBalanceSavings < 0 {
+            self.finalBalanceSavings = finalBalanceSavings - overdraftFee
+        } else if finalBalanceBusiness < 0 {
+            self.finalBalanceBusiness = finalBalanceBusiness - overdraftFee
+        }
+    }
 }
 
 
@@ -250,13 +263,14 @@ extension BankAccount {
         }
     }
 }
-
+// Use inheritance to create Checking Account
 class CheckingAccount: BankAccount
 {
     let monthlyServiceFee = 5.00
     let minumumBalance = 25.00
 }
 
+//  Use inheritance to create a Savings Account
 class SavingsAccount: BankAccount {
     
     let apy = 0.02
@@ -271,28 +285,23 @@ class SavingsAccount: BankAccount {
     }
     
     func calculateAccruedInterest( initialSavings: Double, monthsActive: Double, apy: Double ) {
-        let finalBalancePlusInterest = monthsActive * apy
+        let finalBalancePlusInterest = monthsActive * apy * initialSavings
         print(finalBalancePlusInterest)
     }
 }
 
 class BusinessAccount: BankAccount
 {
-    let monthlyServiceFee = 5.00
     let minumumBalance = 2500.00
 }
 
-var account1 = BusinessAccount(initialBalance: <Double>, finalBalance: <Double>, finalBalanceChecking: <Double>, finalBalanceSavings: <Double>, finalBalanceBusiness: <Double>, transferAmount: <Double>, fromCheckingToSavings: <Bool>, fromCheckingToBusiness: <Bool>, fromSavingsToChecking: <Bool>, fromSavingsToBusiness: <Bool>, fromBusinessToChecking: <Bool>, fromBusinessToSavings: <Bool>)
 
-var account2 = CheckingAccount(initialBalance: <Double>, finalBalance: <Double>, finalBalanceChecking: <Double>, finalBalanceSavings: <Double>, finalBalanceBusiness: <Double>, transferAmount: <#Double#>, fromCheckingToSavings: <Bool>, fromCheckingToBusiness: <Bool>, fromSavingsToChecking: <Bool>, fromSavingsToBusiness: <Bool>, fromBusinessToChecking: <Bool>, fromBusinessToSavings: <Bool>)
-
-var account3 = SavingsAccount(monthsActive: <Double?>, initialSavings: <Double>)
-
-
-var accountCollection:[Fundable.Type] = [BusinessAccount.self,CheckingAccount.self,SavingsAccount.self]
-
-func listAccounts ( accountCollection:[Fundable] ) {
+//  List all accounts
+func listAccounts ( ) {
+    
+    let accountCollection:[Fundable.Type] = [BusinessAccount.self,CheckingAccount.self,SavingsAccount.self]
+    
     for i in accountCollection {
-        print(accountcollection[i])
+        print(i)
     }
 }
